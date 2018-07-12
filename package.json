@@ -1,0 +1,23 @@
+{
+  "name": "mosyrejs2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test.cmd",
+    "testLinux":"./testLinux.sh",
+    "build": "build.cmd",
+    "build-linux":"./buildLinux.sh"
+  },
+  "keywords": [
+    "mosyrejs2"
+  ],
+  "author": "Manh Le",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "webpack": "^4.16.0"
+  }
+}
