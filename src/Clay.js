@@ -18,7 +18,7 @@ class Clay {
             get() {
                 return this.__.contacts
             }
-        })
+        })        
     }
 
     onSignal(fromClay, atConnectPoint, signal) {}
@@ -31,9 +31,15 @@ class Clay {
         idx < 0 && contacts.push([withClay, atConnectPoint])
     }
 
+    getContact(withClay,cp){
+        return contacts.findIndex(x => x[0] === withClay && this.isSamePoint(x[1], cp))
+    }
+
     isSamePoint(a, b) {
         return a === b;
     }
+
+    getCenter(){}
 
     static connect(clay1, clay2, atConnectPoint, atConnectPoint2) {
         clay1.connect(clay2, atConnectPoint);
