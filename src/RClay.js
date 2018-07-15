@@ -48,6 +48,10 @@ class RClay extends Clay {
         pair? pair[0] = withClay: contacts.push([withClay, atConnectPoint])
     }
 
+    verifyContact(withClay,cp){
+        return this.contacts.find(x => x[0] === withClay && this.isSamePoint(x[1], cp))
+    }
+    
     onResponse(cp){
         const response = this.agreement.response || (()=>{});
         response(this.getCenter(),this,cp);

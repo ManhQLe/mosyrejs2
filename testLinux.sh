@@ -1,4 +1,4 @@
 #!/bin/bash
 # Test 
-
-node ./tests/UnitTest.js
+node ./tests/ClayTest.js
+node ./tests/RClayTest.js
