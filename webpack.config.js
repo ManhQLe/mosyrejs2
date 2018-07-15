@@ -7,11 +7,11 @@ module.exports = {
         filename: 'mosyrejs2.min.js'
     },
     module: {
-        loaders: [{
+        rules: [{
             test: /\.js$/,
             exclude: /(node_modules|bower_components)/,
             loader: 'babel-loader',
-            query: {
+            options: {
                 presets: ['babel-preset-env']
             }
         }]

@@ -2,7 +2,7 @@
 # Building 
 
 rm build/*.* -rf
-cp src/mosyrejs/*.js build -fr
+cp src/*.js build -fr
 cp README.md build -rf
 cp package.json build -rf
 
