@@ -30,12 +30,18 @@ class RClay extends Clay {
             }
         });
 
+        Object.defineProperty(this, "center", {
+            get() {
+                return this.__.center;
+            }
+        })
+
         this.onInit();
     }
 
     onSignal(fromClay, cp, signal) {        
         const contact = this.verifyContact(fromClay,cp);
-        contact && (this.getCenter()[cp] = signal);        
+        contact && (this.center[cp] = signal);        
     }
 
     connect(withClay, atConnectPoint) {
@@ -47,19 +53,13 @@ class RClay extends Clay {
         let pair = contacts.find(x => this.isSamePoint(x[1], atConnectPoint))
         pair? pair[0] = withClay: contacts.push([withClay, atConnectPoint])
     }
-
-    verifyContact(withClay,cp){
-        return this.contacts.find(x => x[0] === withClay && this.isSamePoint(x[1], cp))
-    }
     
     onResponse(cp){
         const response = this.agreement.response || (()=>{});
-        response(this.getCenter(),this,cp);
+        response(this.center,this,cp);
     }
 
-    getCenter(){
-        return this.__.center;
-    }
+    
 
     onInit(){
         const {init} = this.agreement;

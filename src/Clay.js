@@ -30,7 +30,9 @@ class Clay {
         let idx = contacts.findIndex(x => x[0] === withClay && this.isSamePoint(x[1], atConnectPoint))        
         idx < 0 && contacts.push([withClay, atConnectPoint])
     }
-
+    verifyContact(withClay,cp){
+        return this.contacts.find(x => x[0] === withClay && this.isSamePoint(x[1], cp))
+    }
     isSamePoint(a, b) {
         return a === b;
     }

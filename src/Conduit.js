@@ -3,11 +3,15 @@ const Clay = require('./Clay')
 class Conduit extends Clay {
     constructor(agr) {
         super(agr)
-        this.agreement.hasOwnPropery("parallelTrx")?0:this.agreement.parallelTrx = true;
+        this.agreement.hasOwnProperty("parallelTrx")?0:this.agreement.parallelTrx = true;
     }
 
     onSignal(fromClay, atConnectPoint, signal) {
         const pair = this.verifyContact(fromClay, atConnectPoint);
+        
+        if(!pair)
+            return;
+
         const contacts = this.contacts;
         const {parallelTrx} = this.agreement;
         contacts.forEach(p => {
