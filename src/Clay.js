@@ -37,6 +37,10 @@ class Clay {
         return a === b;
     }
 
+    defineAgreement(name,defValue){
+        this.agreement.hasOwnProperty(name)?0:this.agreement[name] = defValue;
+    }
+
     getCenter(){}
 
     static connect(clay1, clay2, atConnectPoint, atConnectPoint2) {

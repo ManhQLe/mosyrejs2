@@ -19,9 +19,6 @@ class RClay extends Clay {
             return k ? k[1] : undefined;
         }
 
-
-        agr.sensorPoints ? 1 : agr.sensorPoints = [];
-
         this.__.center = new Proxy(this, {
             get(target, connectPoint) {
                 return target.__.getSignalStore(connectPoint);
@@ -37,6 +34,8 @@ class RClay extends Clay {
                 return this.__.center;
             }
         })
+
+        this.defineAgreement("sensorPoints",[]);
 
         this.onInit();
     }
@@ -60,8 +59,6 @@ class RClay extends Clay {
         const response = this.agreement.response || (()=>{});
         response(this.center,this,cp);
     }
-
-    
 
     onInit(){
         const {init} = this.agreement;

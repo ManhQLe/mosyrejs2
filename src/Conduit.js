@@ -5,7 +5,7 @@ const Clay = require('./Clay')
 class Conduit extends Clay {
     constructor(agr) {
         super(agr)
-        this.agreement.hasOwnProperty("parallelTrx")?0:this.agreement.parallelTrx = true;
+        this.defineAgreement("ParallelTrx",true);
     }
 
     onSignal(fromClay, atConnectPoint, signal) {
@@ -37,6 +37,18 @@ class Conduit extends Clay {
 
         let idx = contacts.findIndex(x => x[0] === withClay && this.isSamePoint(x[1], atConnectPoint))
         idx < 0 && contacts.push([withClay, atConnectPoint])
+    }
+
+    link(array){
+        for(let i =0;i<array.length;i+=2){
+            Clay.connect(this,array[i],array[i+1]);
+        }
+    }
+
+    static createLink(array){
+        let con = new Conduit();
+        con.link(array);
+        return con;
     }
 }
 

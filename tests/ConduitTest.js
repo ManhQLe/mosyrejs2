@@ -75,7 +75,14 @@ try {
     assert(result,4);
     assert(result2,7);
     
+    let c1 = new RClay();
+    let c2 = new RClay();
 
+    let con2 = Conduit.createLink([c1,"1",c2,"1",c2,"X"])
+    assert(con2.contacts.length,3);
+
+    con2.link([c1,"2",c1,"1",c2,"Y"])
+    assert(con2.contacts.length,5);
 
     writeLine(chalk.green("passed!"))
 
