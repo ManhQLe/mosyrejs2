@@ -38,9 +38,9 @@ try {
     assert(veriCalled,10)
 
     writeLine(chalk.green("passed!\n"))
+    
 
 } catch (ex) {
     writeLine(chalk.red("failed!\n"));
-    writeLine(ex)
     writeLine(chalk.yellow(ex.stack + "\n"));    
 }

@@ -6,11 +6,15 @@ class VClay extends RClay {
         this.defineAgreement("actLogic", () => {})
         this.defineAgreement("verifyLogic", () => {})
         this.defineAgreement("nextTestCase", () => {})
-        
-        this.__.currentCase = null;
+        this.defineAgreement("timeOut", Infinity);
 
-        let {sensorPoints} = this.agreement;
-        if (sensorPoints.findIndex(x => this.isSamePoint(x, VClay.outSensor))>=0)
+        this.__.currentCase = null;
+        this.__.dead = false;
+        this.__.timeOut = null;
+        let {
+            sensorPoints
+        } = this.agreement;
+        if (sensorPoints.findIndex(x => this.isSamePoint(x, VClay.outSensor)) >= 0)
             throw "Cannot use reserve sensor point"
     }
 
@@ -19,7 +23,10 @@ class VClay extends RClay {
             verifyLogic
         } = this.agreement
         try {
+            if (this.__.dead)
+                throw Error("Timeout! component is either slow or logic dead")
             verifyLogic(this.__.currentCase, this.center);
+            clearTimeout();
             this.test();
         } catch (ex) {
             this.finish({
@@ -36,18 +43,31 @@ class VClay extends RClay {
         } = this.agreement;
 
         this.__.currentCase = nextTestCase(this);
-        if (this.__.currentCase!==undefined)
-            actLogic( this.__.currentCase, this.center);
-        else
+        if (this.__.currentCase !== undefined) {
+            this.checkTimeOut();
+            actLogic(this.__.currentCase, this.center);
+        } else
             this.finish({
                 passed: true
             });
     }
 
+    checkTimeOut() {
+        if (this.agreement.timeOut !== Infinity)
+            setTimeout(() => {
+                this.__.dead = true;
+            }, this.agreement.timeOut)
+    }
+
+    clearTimeOut(){
+        clearTimeout(this.__.timeOut);
+        this.__.timeOut = null;
+    }
 
     finish(r) {
-        this.__.caseIdx = 0;
-        this.center[VClay.outSensor] = r;
+        this.__.dead = false;
+        if (++this.__._count !== 0)
+            this.center[VClay.outSensor] = r;
     }
 }
 
