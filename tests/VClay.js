@@ -24,7 +24,7 @@ class VClay extends RClay {
         } = this.agreement
         try {
             if (this.__.dead)
-                throw Error("Timeout! component is either slow or logic dead")
+                return;
             verifyLogic(this.__.currentCase, this.center);
             clearTimeout();
             this.test();
@@ -56,6 +56,10 @@ class VClay extends RClay {
         if (this.agreement.timeOut !== Infinity)
             setTimeout(() => {
                 this.__.dead = true;
+                this.finish({
+                    passed:false,
+                    ex:"component did not response in specified time frame"
+                })
             }, this.agreement.timeOut)
     }
 
