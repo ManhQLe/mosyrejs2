@@ -56,7 +56,7 @@ class VClay extends RClay {
 
     checkTimeOut() {
         if (this.agreement.timeOut !== Infinity)
-            setTimeout(() => {
+            this.__.timeOut = setTimeout(() => {
                 this.__.dead = true;
                 this.finish({
                     passed: false,
