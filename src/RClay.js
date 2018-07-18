@@ -40,9 +40,11 @@ class RClay extends Clay {
         this.onInit();
     }
 
-    onSignal(fromClay, cp, signal) {        
-        const contact = this.verifyContact(fromClay,cp);
-        contact && (this.center[cp] = signal);        
+    onSignal(fromClay, cp, signal) { 
+        const contact = this.verifyContact(fromClay,cp);        
+        contact && 
+        this.agreement.sensorPoints.findIndex(p=>this.isSamePoint(cp,p))>=0 &&
+        (this.center[cp] = signal);        
     }
 
     connect(withClay, atConnectPoint) {
@@ -56,7 +58,7 @@ class RClay extends Clay {
     }
     
     onResponse(cp){
-        const response = this.agreement.response || (()=>{});
+        const response = this.agreement.response// || (()=>{});
         response(this.center,this,cp);
     }
 
@@ -76,13 +78,13 @@ function __process(me, connectPoint, signal) {
     const {sensorPoints} = me.agreement;
     if (sensorPoints.findIndex(cp => me.isSamePoint(cp, connectPoint)) >= 0) {        
         me.__.setSignalStore(connectPoint,signal);
-        collected.add(connectPoint);
+        collected.add(connectPoint);        
         if (collected.size === sensorPoints.length) {
             me.agreement.staged && collected.clear();
             me.onResponse(connectPoint);
         }
     } else {
-        let pair = contacts.find(p => me.isSamePoint(p[1], connectPoint))        
+        let pair = contacts.find(p => me.isSamePoint(p[1], connectPoint))  
         pair && Clay.vibrate(pair[0], connectPoint, signal, me)
     }
 }

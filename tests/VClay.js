@@ -14,7 +14,7 @@ class VClay extends RClay {
         let {
             sensorPoints
         } = this.agreement;
-        if (sensorPoints.findIndex(x => this.isSamePoint(x, VClay.outSensor)) >= 0)
+        if (sensorPoints.findIndex(x => this.isSamePoint(x, VClay.OUTCOME)) >= 0)
             throw "Cannot use reserve sensor point"
     }
 
@@ -26,17 +26,19 @@ class VClay extends RClay {
             if (this.__.dead)
                 return;
             verifyLogic(this.__.currentCase, this.center);
-            clearTimeout();
+            this.clearTime();
             this.test();
         } catch (ex) {
             this.finish({
                 passed: false,
-                error: ex
+                ex
             });
         }
     }
 
     test() {
+        if (this.__.dead)
+            return;
         let {
             nextTestCase,
             actLogic
@@ -57,24 +59,23 @@ class VClay extends RClay {
             setTimeout(() => {
                 this.__.dead = true;
                 this.finish({
-                    passed:false,
-                    ex:"component did not response in specified time frame"
+                    passed: false,
+                    ex: new Error("component did not response in specified time frame")
                 })
             }, this.agreement.timeOut)
     }
 
-    clearTimeOut(){
+    clearTime() {
         clearTimeout(this.__.timeOut);
         this.__.timeOut = null;
     }
 
     finish(r) {
         this.__.dead = false;
-        if (++this.__._count !== 0)
-            this.center[VClay.outSensor] = r;
+        this.center[VClay.OUTCOME] = r;
     }
 }
 
 
-VClay.outSensor = "__M3G1CPO47"
+VClay.OUTCOME = "__M3G1CPO47"
 module.exports = VClay

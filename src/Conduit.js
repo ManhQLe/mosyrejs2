@@ -5,22 +5,23 @@ const Clay = require('./Clay')
 class Conduit extends Clay {
     constructor(agr) {
         super(agr)
-        this.defineAgreement("ParallelTrx",true);
+        this.defineAgreement("parallelTrx",true);
     }
 
     onSignal(fromClay, atConnectPoint, signal) {
         const pair = this.verifyContact(fromClay, atConnectPoint);
-        
+
         if(!pair)
             return;
 
         const contacts = this.contacts;
         const {parallelTrx} = this.agreement;
-        contacts.forEach(p => {
-            if (p[0] !== pair[0] || !this.isSamePoint(p[1], pair[1])) {
+        let me = this;
+        contacts.forEach(function(p) {
+            if (p[0] !== pair[0] || !me.isSamePoint(p[1], pair[1])) {                
                 parallelTrx?
-                setTimeout(Clay.vibrate,0,p[0],p[1],signal,this) 
-                :Clay.vibrate(p[0],p[1],signal,this);
+                setTimeout(Clay.vibrate,0,p[0],p[1],signal,me) 
+                :Clay.vibrate(p[0],p[1],signal,me);
             }
         });
     }
