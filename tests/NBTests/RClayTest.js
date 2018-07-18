@@ -1,8 +1,8 @@
 const chalk = require('chalk')
 const RClay = require('../../src/RClay');
 const Conduit = require('../../src/Conduit');
-const VClay = require('../VClay')
-const BlockClay = require("../BlockClay")
+const VClay = require('../../src/Util/VClay')
+const BlockClay = require("../../src/Util/BlockClay")
 
 const {
     assert,

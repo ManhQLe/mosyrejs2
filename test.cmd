@@ -5,3 +5,4 @@ node tests\VClayTest.js
 node tests\BlockClayTest.js
 node tests\NBTests\ConduitSimpleTest.js
 node tests\NBTests\RClayTest.js
+node tests\NBTests\Path1Test.js

@@ -1,5 +1,5 @@
 const chalk = require('chalk')
-const VClay = require('./VClay');
+const VClay = require('../src/Util/VClay');
 const {
     assert,
     write,

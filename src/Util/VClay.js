@@ -1,4 +1,4 @@
-const RClay = require('../src/RClay')
+const RClay = require('../RClay')
 
 class VClay extends RClay {
     constructor(agr) {

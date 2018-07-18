@@ -1,4 +1,4 @@
-const RClay = require("../src/RClay")
+const RClay = require("../RClay")
 const readline = require('readline');
 
 class BlockClay extends RClay{

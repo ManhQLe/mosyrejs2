@@ -1,5 +1,5 @@
 const chalk = require('chalk')
-const BlockClay = require('./BlockClay');
+const BlockClay = require('../src/Util/BlockClay');
 
 const {
     assert,
