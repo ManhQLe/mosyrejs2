@@ -60,6 +60,12 @@ try {
     assert(x,5);
     assert(y,11);
 
+    o3.onSignal(o1,"X",.2);
+    o3.setSensorPoint("X",-3);
+    o3.onSignal(o1,"Y",7);
+    assert(x,-3)
+    assert(y,4)
+
     writeLine(chalk.green("passed!\n"))
 
 

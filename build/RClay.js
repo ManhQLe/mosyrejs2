@@ -57,6 +57,11 @@ class RClay extends Clay {
         pair? pair[0] = withClay: contacts.push([withClay, atConnectPoint])
     }
     
+    setSensorPoint(sp,val){
+        this.agreement.sensorPoints.findIndex(x=>this.isSamePoint(sp,x))>=0
+        &&this.__.setSignalStore(sp,val);
+    }
+
     onResponse(cp){
         const response = this.agreement.response// || (()=>{});
         response(this.center,this,cp);
