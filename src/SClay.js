@@ -62,7 +62,8 @@ class SClay extends Clay {
     }
 
     connect(withClay, atConnectPoint) {
-        let pair = this.links.find(c => this.isSamePoint(atConnectPoint, c.sp))
+        let links = this.__.links;
+        let pair = links.find(c => this.isSamePoint(atConnectPoint, c.sp))
         if (pair) {
             pair.link.link([withClay, atConnectPoint])
         }
