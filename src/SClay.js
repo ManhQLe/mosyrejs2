@@ -73,3 +73,5 @@ class SClay extends Clay {
         return this.agreement.build(this);
     }
 }
+
+module.exports = SClay;
