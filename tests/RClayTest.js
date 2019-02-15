@@ -10,6 +10,7 @@ const {
 try {
     var o1 = new Clay();
     var o2 = new Clay();
+    var ox = new RClay();
 
     write("Testing RClay.js...")
 
@@ -65,6 +66,24 @@ try {
     o3.onSignal(o1,"Y",7);
     assert(x,-3)
     assert(y,4)
+
+    // Testing connect/disconnect
+    ox.connect(o2,"T");
+    assert(ox.contacts.length,1);
+    ox.connect(o2,"T");
+    assert(ox.contacts.length,1);
+
+    ox.connect(o2,"T2")
+    assert(ox.contacts.length,2);
+
+    ox.disconnect(o2,"T")
+    assert(ox.contacts.length,1);
+
+    ox.disconnect(o2,"T3")
+    assert(ox.contacts.length,1);
+
+    ox.connect(o1,"T")
+    assert(ox.contacts.length,2);
 
     writeLine(chalk.green("passed!\n"))
 

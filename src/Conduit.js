@@ -30,6 +30,15 @@ class Conduit extends Clay {
         this.addContact(withClay, atConnectPoint);
     }
 
+    disconnect(withClay,atConnectPoint){
+        this.removeContact(withClay,atConnectPoint);
+    }
+
+    removeContact(withClay,atConnectPoint){        
+        let idx = this.contacts.findIndex(x => x[0] === withClay && this.isSamePoint(x[1], atConnectPoint))
+        idx>=0 && this.contacts.splice(idx,1);
+    }
+
     addContact(withClay, atConnectPoint) {
         const contacts = this.contacts;
 

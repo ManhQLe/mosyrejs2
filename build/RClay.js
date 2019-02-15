@@ -24,7 +24,10 @@ class RClay extends Clay {
                 return target.__.getSignalStore(connectPoint);
             },
             set(target, connectPoint, signal) {
-                __process(target, connectPoint, signal);
+                //RClay.__process(target, connectPoint, signal);
+                const me = target;
+                let pair = me.__.contacts.find(p => me.isSamePoint(p[1], connectPoint))  
+                pair && Clay.vibrate(pair[0], connectPoint, signal, me)
                 return true;
             }
         });
@@ -36,15 +39,29 @@ class RClay extends Clay {
         })
 
         this.defineAgreement("sensorPoints",[]);
-
         this.onInit();
     }
 
     onSignal(fromClay, cp, signal) { 
         const contact = this.verifyContact(fromClay,cp);        
-        contact && 
-        this.agreement.sensorPoints.findIndex(p=>this.isSamePoint(cp,p))>=0 &&
-        (this.center[cp] = signal);        
+        if(contact && 
+        this.agreement.sensorPoints.findIndex(p=>this.isSamePoint(cp,p))>=0)
+        {
+            const me = this;
+            const{collected}= me.__;
+            const {sensorPoints} = me.agreement;
+            me.__.setSignalStore(cp,signal);
+            collected.add(cp);        
+            if (collected.size === sensorPoints.length) {
+                me.agreement.staged && collected.clear();
+                me.onResponse(cp);
+            }
+        }
+    }
+
+    disconnect(withClay,connectPoint){
+        let idx = this._getContactIndex(withClay,connectPoint);
+        idx>=0 && this.contacts.splice(idx,1);
     }
 
     connect(withClay, atConnectPoint) {
@@ -63,7 +80,7 @@ class RClay extends Clay {
     }
 
     onResponse(cp){
-        const response = this.agreement.response// || (()=>{});
+        const response = this.agreement.response
         response(this.center,this,cp);
     }
 
@@ -74,24 +91,24 @@ class RClay extends Clay {
 
 }
 
-function __process(me, connectPoint, signal) {
+// RClay.__process= function(me, connectPoint, signal) {
 
-    const {
-        contacts,
-        collected,        
-    } = me.__;
-    const {sensorPoints} = me.agreement;
-    if (sensorPoints.findIndex(cp => me.isSamePoint(cp, connectPoint)) >= 0) {        
-        me.__.setSignalStore(connectPoint,signal);
-        collected.add(connectPoint);        
-        if (collected.size === sensorPoints.length) {
-            me.agreement.staged && collected.clear();
-            me.onResponse(connectPoint);
-        }
-    } else {
-        let pair = contacts.find(p => me.isSamePoint(p[1], connectPoint))  
-        pair && Clay.vibrate(pair[0], connectPoint, signal, me)
-    }
-}
+//     const {
+//         contacts,
+//         collected
+//     } = me.__;
+//     const {sensorPoints} = me.agreement;
+//     if (sensorPoints.findIndex(cp => me.isSamePoint(cp, connectPoint)) >= 0) {        
+//         me.__.setSignalStore(connectPoint,signal);
+//         collected.add(connectPoint);        
+//         if (collected.size === sensorPoints.length) {
+//             me.agreement.staged && collected.clear();
+//             me.onResponse(connectPoint);
+//         }
+//     } else {
+//         let pair = contacts.find(p => me.isSamePoint(p[1], connectPoint))  
+//         pair && Clay.vibrate(pair[0], connectPoint, signal, me)
+//     }
+// }
 
 module.exports = RClay;

@@ -10,12 +10,14 @@ const {
 try {
     var result, result2;
     var o1 = new RClay({
-        sensorPoints: ["Y"],
+        sensorPoints: ["X"],
         response:function(center){
-            center["X"] = center.Y; 
+            
         }        
     });
-
+    o1.Test = function(x){
+        this.center.X = x;
+    }
 
     var o2 = new RClay({
         sensorPoints:["R"],
@@ -31,9 +33,7 @@ try {
         }
     })
 
-    o1.Test = function(x){
-        this.center.Y = x;
-    }
+
 
     write("Testing Conduit.js...")
 
@@ -46,14 +46,25 @@ try {
     con1.connect(o2, "Y");
     assert(con1.contacts.length, 2)
 
+    con1.disconnect(o1,"X");
+    assert(con1.contacts.length,1)
+
     con1.connect(o1, "X")
     assert(con1.contacts.length, 2)
 
-    con1.connect(o2, "R");
-    
+    con1.connect(o2, "R");    
     assert(con1.contacts.length, 3);
 
     con1.connect(o3,"R");
+    assert(con1.contacts.length,4);
+
+    con1.disconnect(o2,"D");
+    assert(con1.contacts.length,4);
+
+    con1.disconnect(o2,"Y");
+    assert(con1.contacts.length,3);
+
+    con1.connect(o2,"Y")
     assert(con1.contacts.length,4);
 
     assert(con1.agreement.parallelTrx, false);

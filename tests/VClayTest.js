@@ -1,4 +1,5 @@
 const chalk = require('chalk')
+const Conduit = require('../src/Conduit');
 const VClay = require('../src/Util/VClay');
 const {
     assert,
@@ -26,10 +27,16 @@ try {
         actLogic(testCase,center) {
             actCalled++;
             assert(testCase,caseIdx-1);
-            center["IN"] = testCase * 2;
+            center["OUT"] = testCase * 2;
         },
         sensorPoints:["IN"]
     });
+
+    let c = new Conduit({
+        parallelTrx:false
+    })
+
+    c.link([o1,"OUT",o1,"IN"])
 
     o1.test();
 
@@ -38,6 +45,7 @@ try {
     assert(veriCalled,10)
 
     writeLine(chalk.green("passed!\n"))
+    
     
 
 } catch (ex) {

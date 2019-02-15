@@ -1,3 +1,8 @@
+/* 
+    Copyright (c) 2017 Manh Le
+    MIT License
+*/
+
 'use strict'
 
 const Clay = require('./Clay');

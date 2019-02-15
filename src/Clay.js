@@ -21,18 +21,27 @@ class Clay {
         })        
     }
 
+    verifyContact(withClay,cp){
+        let idx = this._getContactIndex(withClay,cp);
+        return idx>=0?this.contacts[idx]:null;
+    }
+
+    _getContactIndex(withClay,cp){
+        return this.contacts.findIndex(x => x[0] === withClay && this.isSamePoint(x[1], cp));        
+    }
+
     onSignal(fromClay, atConnectPoint, signal) {}
 
     connect(withClay, atConnectPoint) {}
+
+    disconnect(withClay,atConnectPoint){}
 
     addContact(withClay, atConnectPoint) {
         const contacts = this.contacts;
         let idx = contacts.findIndex(x => x[0] === withClay && this.isSamePoint(x[1], atConnectPoint))        
         idx < 0 && contacts.push([withClay, atConnectPoint])
     }
-    verifyContact(withClay,cp){
-        return this.contacts.find(x => x[0] === withClay && this.isSamePoint(x[1], cp))
-    }
+
     isSamePoint(a, b) {
         return a === b;
     }
