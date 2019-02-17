@@ -1,13 +1,14 @@
 {
     "name": "mosyrejs2",
-    "version": "1.1.3",
+    "version": "1.1.4",
     "description": "",
     "main": "index.js",
     "scripts": {
         "test": "test.cmd",
         "testLinux": "./testLinux.sh",
         "build": "build.cmd",
-        "buildLinux": "./buildLinux.sh"
+        "buildLinux": "./buildLinux.sh",
+        "publish":"publish.cmd"
     },
     "keywords": [
         "mosyrejs2"
