@@ -75,8 +75,11 @@ class RClay extends Clay {
     }
     
     setSensorPoint(sp,val){
-        this.agreement.sensorPoints.findIndex(x=>this.isSamePoint(sp,x))>=0
-        &&this.__.setSignalStore(sp,val);
+        if(this.agreement.sensorPoints.findIndex(x=>this.isSamePoint(sp,x))>=0)
+        {    
+            this.__.setSignalStore(sp,val);
+            this.__.collected.add(sp);
+        }
     }
 
     onResponse(cp){
