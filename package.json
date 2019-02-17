@@ -1,6 +1,6 @@
 {
     "name": "mosyrejs2",
-    "version": "1.1.4",
+    "version": "1.1.6",
     "description": "",
     "main": "index.js",
     "scripts": {
@@ -8,7 +8,7 @@
         "testLinux": "./testLinux.sh",
         "build": "build.cmd",
         "buildLinux": "./buildLinux.sh",
-        "publish":"publish.cmd"
+        "pushversion":"npm run build && npm login && publish.cmd"
     },
     "keywords": [
         "mosyrejs2"
