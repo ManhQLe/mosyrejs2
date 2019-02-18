@@ -5,14 +5,13 @@ const TClay = require('./TClay')
 class MClay extends TClay {
     constructor(agr){
         super(agr)
-        this.defineAgreement("sensorPoints",[]);
 
     }
     
     onSignal(fromClay, cp, signal) { 
         const contact = this.verifyContact(fromClay,cp);        
         if(contact && 
-        this.agreement.sensorPoints.findIndex(p=>this.isSamePoint(cp,p))>=0)
+        this._isValidSensorPoint(cp))
         {
             const{collected}= this.__;
             this.setSensorPoint(cp,signal)

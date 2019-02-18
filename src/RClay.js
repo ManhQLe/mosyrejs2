@@ -10,7 +10,7 @@ class RClay extends TClay {
     onSignal(fromClay, cp, signal) { 
         const contact = this.verifyContact(fromClay,cp);        
         if(contact && 
-        this.agreement.sensorPoints.findIndex(p=>this.isSamePoint(cp,p))>=0)
+        this._isValidSensorPoint(cp))
         {
             const{collected}= this.__;
             this.setSensorPoint(cp,signal)
@@ -47,25 +47,5 @@ class RClay extends TClay {
     }
 
 }
-
-// RClay.__process= function(me, connectPoint, signal) {
-
-//     const {
-//         contacts,
-//         collected
-//     } = me.__;
-//     const {sensorPoints} = me.agreement;
-//     if (sensorPoints.findIndex(cp => me.isSamePoint(cp, connectPoint)) >= 0) {        
-//         me.__.setSignalStore(connectPoint,signal);
-//         collected.add(connectPoint);        
-//         if (collected.size === sensorPoints.length) {
-//             me.agreement.staged && collected.clear();
-//             me.onResponse(connectPoint);
-//         }
-//     } else {
-//         let pair = contacts.find(p => me.isSamePoint(p[1], connectPoint))  
-//         pair && Clay.vibrate(pair[0], connectPoint, signal, me)
-//     }
-// }
 
 module.exports = RClay;

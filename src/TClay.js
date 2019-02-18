@@ -48,11 +48,15 @@ class TClay extends Clay {
     }
 
     setSensorPoint(sp,val){
-        if(this.agreement.sensorPoints.findIndex(x=>this.isSamePoint(sp,x))>=0)
+        if(this._isValidSensorPoint(sp))
         {    
             this._setSignalStore(sp,val);
             this.__.collected.add(sp);
         }
+    }
+
+    _isValidSensorPoint(sp){
+        return this.agreement.sensorPoints.findIndex(x=>this.isSamePoint(sp,x))>=0;
     }
 
     _allSignalsReady(){
