@@ -1,45 +1,10 @@
 'use strict'
 
-const Clay = require('./Clay')
+const TClay = require('./TClay')
 
-class RClay extends Clay {
+class RClay extends TClay {
     constructor(agr) {
         super(agr);
-        this.__.signalStore = [];
-        this.__.collected = new Set();        
-        var me = this;
-
-        this.__.setSignalStore = function (cp, signal) {
-            const signalStore = this.signalStore;
-            const k = signalStore.find(x => me.isSamePoint(cp, x[0]));
-            k ? k[1] = signal : signalStore.push([cp, signal]);
-        }
-        this.__.getSignalStore = function (cp) {
-            const k = this.signalStore.find(x => me.isSamePoint(cp, x[0]));
-            return k ? k[1] : undefined;
-        }
-
-        this.__.center = new Proxy(this, {
-            get(target, connectPoint) {
-                return target.__.getSignalStore(connectPoint);
-            },
-            set(target, connectPoint, signal) {
-                //RClay.__process(target, connectPoint, signal);
-                const me = target;
-                let pair = me.__.contacts.find(p => me.isSamePoint(p[1], connectPoint))  
-                pair && Clay.vibrate(pair[0], connectPoint, signal, me)
-                return true;
-            }
-        });
-
-        Object.defineProperty(this, "center", {
-            get() {
-                return this.__.center;
-            }
-        })
-
-        this.defineAgreement("sensorPoints",[]);
-        this.onInit();
     }
 
     onSignal(fromClay, cp, signal) { 
@@ -50,7 +15,7 @@ class RClay extends Clay {
             const me = this;
             const{collected}= me.__;
             const {sensorPoints} = me.agreement;
-            me.__.setSignalStore(cp,signal);
+            me._setSignalStore(cp,signal);
             collected.add(cp);        
             if (collected.size === sensorPoints.length) {
                 me.agreement.staged && collected.clear();
@@ -74,14 +39,6 @@ class RClay extends Clay {
         pair? pair[0] = withClay: contacts.push([withClay, atConnectPoint])
     }
     
-    setSensorPoint(sp,val){
-        if(this.agreement.sensorPoints.findIndex(x=>this.isSamePoint(sp,x))>=0)
-        {    
-            this.__.setSignalStore(sp,val);
-            this.__.collected.add(sp);
-        }
-    }
-
     onResponse(cp){
         const response = this.agreement.response
         response(this.center,this,cp);
