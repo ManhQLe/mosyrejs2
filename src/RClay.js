@@ -12,14 +12,11 @@ class RClay extends TClay {
         if(contact && 
         this.agreement.sensorPoints.findIndex(p=>this.isSamePoint(cp,p))>=0)
         {
-            const me = this;
-            const{collected}= me.__;
-            const {sensorPoints} = me.agreement;
-            me._setSignalStore(cp,signal);
-            collected.add(cp);        
-            if (collected.size === sensorPoints.length) {
-                me.agreement.staged && collected.clear();
-                me.onResponse(cp);
+            const{collected}= this.__;
+            this.setSensorPoint(cp,signal)
+            if (this._allSignalsReady()) {
+                this.agreement.staged && collected.clear();
+                this.onResponse(cp);
             }
         }
     }

@@ -12,7 +12,6 @@ class TClay extends Clay {
         super(agr);
         this.__.signalStore = [];
         this.__.collected = new Set();        
-        var me = this;
 
         this.__.center = new Proxy(this, {
             get(target, connectPoint) {
@@ -56,9 +55,9 @@ class TClay extends Clay {
         }
     }
 
-    _allSignalReady(){
-        let collected = this.__;
-        let sensorPoints = this.defineAgreement.sensorPoints;
+    _allSignalsReady(){
+        let collected = this.__.collected;
+        let sensorPoints = this.agreement.sensorPoints;
         return collected.size === sensorPoints.length
     }
 
